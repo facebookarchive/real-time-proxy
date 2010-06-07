@@ -1,0 +1,57 @@
+
+# proxy endpoint settings
+# this endpoint must NOT be visible from untrusted sources, or an attacker
+# could retrieve data from the cache without valid authentication
+proxy_port = 14567
+proxy_interface = '0.0.0.0'
+
+# realtime-update endpoint settings
+# this endpoint must be visible from Facebook.
+realtime_port = 14568
+realtime_interface = '0.0.0.0'
+public_hostname = "server.domain.com"
+
+# cache settings
+cache_entries = 10000
+
+
+# application settings: Each application should be specified
+# in a format similar to the following example:
+# apps[] = { 'appid': 12345, 'property': value }
+#
+# Currently supported properties
+# appid - the Application ID
+# app_cred - an access_token (without the 'access_token=' which
+#       is a valid client_cred access token for the application.
+#       This is used to fetch subscription information on startup.
+# app_secret - the application secret. This is used only if app_cred
+#       is not provided to fetch subscription information on startup
+#
+# blacklist_fields - Fields which will force a request to bypass the cache
+#       if present in a ?fields= query string param. This should be an array
+#       of strings (i.e. ['hometown', 'last_name'])
+# whitelist_fields - If present, will only consider requests consisting of only
+#       these fields as eligible for caching. It is recommended that
+#       provide exactly one of app_cred, app_secret, and whitelist_fields
+#   Note: these apply only to fetches of a user (i.e. /userid?fields=name,link)
+#   Note 2: if one of app_cred or app_secret is specified, the realtime
+#       subscription for the app will be updated to point to our endpoint.
+#
+# blacklist_connections - Connections for which requests will be forced to
+#       bypass the cache. (for instance /userid/friends)
+# whitelist_connections - If present, will only consider connections on this
+#       as eligible for caching. The notes for whitelist_fields apply here too.
+
+
+app_1 = {
+        'app_id': '123456789012345', \
+        'app_cred': '123456789012345|REPLACEWITHYOURCRED.',
+        'whitelist_fields': ['first_name', 'last_name', 'name', 'about', 'bio',
+            'about', 'relationship_status', 'email', 'significant_other', 
+            'hometown', 'location', 'work', 'education', 'gender'],
+        'whitelist_connections': ['friends', 'feed', 'movies', 'books',
+            'family', 'activities', 'interests', 'music', 'television',
+            'statuses', 'links', 'picture']}
+
+
+apps = [app_1]

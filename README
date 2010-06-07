@@ -1,0 +1,44 @@
+=== Facebook Graph Proxy with Realtime Invalidation ===
+The Facebook Graph Proxy is a simple proxy for graph.facebook.com that takes
+advantage of the Realtime Updates feature to invalidate stale data. It can be
+used by replacing references to graph.facebook.com with references to the
+proxy.
+
+== Installation ==
+To install:
+
+    python setup.py build
+    sudo python setup.py install
+
+The Facebook Graph Proxy also requires the CherryPy WSGI server to function.
+This may be installed using:
+
+    sudo easy_install cherrypy
+
+== Configuration ==
+To start, copy config.sample into config.txt. From here, you will need to
+update the following values:
+
+    proxy_port: the port on which the server will listen for requests which
+                need to be proxied.
+    realtime_port: the port on which the server will listen for Realtime
+                   Updates from Facebook.
+    cache_entries: The number of entries that should be stored in the cache
+                   before dropping the least-recently-used entry
+    public_hostname: The publicly-visible hostname that Facebook should use
+                     to reach the Realtime Update endpoint of this server
+
+In addition, you will need to enter information about the Facebook
+Applications which will be using this server. See the config file for details.
+
+== Security Considerations ==
+In order to avoid leaking data about users, the proxy port must only be
+accessible by your own servers.
+
+== Execution instructions ==
+To run the proxy:
+
+  start_proxy [config_file]
+
+If config_file is not passed, then the proxy will default to using config.txt.
+
